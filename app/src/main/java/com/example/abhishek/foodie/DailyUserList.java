@@ -1,0 +1,46 @@
+package com.example.abhishek.foodie;
+
+import java.util.ArrayList;
+import android.app.ListActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.ListView;
+
+public class DailyUserList extends ListActivity {
+    private ArrayList<UserListItem> listItems = new ArrayList<>();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.daily_user_page1);
+        ListView expandableList = (ListView) findViewById(android.R.id.list);
+        setListItems();
+        CustomAdapter adapter = new CustomAdapter(this, listItems, getResources());
+        expandableList.setAdapter(adapter);
+    }
+
+    public void setListItems() {
+        //TODO: add items here
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+        listItems.add(new UserListItem());
+    }
+
+    void _(Object str) {
+        Log.d("Error", "" + str);
+    }
+}

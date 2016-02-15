@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f9f9fa"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.example.abhishek.foodie.MainActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:text="Welcome!"
+        android:textAllCaps="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Choose your catagory"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <Button
+        android:id="@+id/daily_user"
+        style="@style/button_page_one"
+        android:text="Daily" />
+
+    <Button
+        android:id="@+id/guest_user"
+        style="@style/button_page_one"
+        android:text="Guest" />
+
+
+    <Button
+        android:id="@+id/one_time_user"
+        style="@style/button_page_one"
+        android:text="Other" />
+</LinearLayout>
