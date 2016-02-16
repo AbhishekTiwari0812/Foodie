@@ -1,16 +1,21 @@
 package com.example.abhishek.foodie;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
+import android.graphics.LinearGradient;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class CustomAdapter extends BaseAdapter {
@@ -18,12 +23,14 @@ public class CustomAdapter extends BaseAdapter {
     private ArrayList<UserListItem> list_items;
     Resources resources;
     LayoutInflater inflater;
+
     public CustomAdapter(Activity a, ArrayList<UserListItem> list_items, Resources resources) {
         base_activity = a;
         this.list_items = list_items;
         this.resources = resources;
         inflater = (LayoutInflater) base_activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View listView = convertView;
@@ -34,6 +41,7 @@ public class CustomAdapter extends BaseAdapter {
         user_index.setText(" " + (position + 1) + ".)");
         return listView;
     }
+
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
 
