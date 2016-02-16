@@ -21,10 +21,12 @@ public class DailyUserList extends ListActivity {
         setListItems();
         CustomAdapter adapter = new CustomAdapter(this, listItems, getResources());
         expandableList.setAdapter(adapter);
-        expandableList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListView lv = getListView();
+        _("REACHED HEREERE");
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(DailyUserList.this, DailyUserProfile.class);
+                Intent intent = new Intent(getApplicationContext(), DailyUserProfile.class);
                 startActivity(intent);
             }
         });

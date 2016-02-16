@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,7 +40,36 @@ public class CustomAdapter extends BaseAdapter {
         }
         TextView user_index = (TextView) listView.findViewById(R.id.daily_user_index);
         user_index.setText(" " + (position + 1) + ".)");
+        //// TODO: FIND AN ALTERNATIVE WAY TO SET ON ITEM CLICK LISTENER
+        RelativeLayout rl = (RelativeLayout) listView.findViewById(R.id.list_item_layout);
+        TextView UserName = (TextView) listView.findViewById(R.id.daily_user_name);
+        ImageView UserDP = (ImageView) listView.findViewById(R.id.user_image);
+        rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_home_page(position);
+            }
+        });
+        UserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_home_page(position);
+            }
+        });
+        UserDP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_home_page(position);
+            }
+        });
         return listView;
+    }
+
+    void open_home_page(int pos) {
+        Intent i = new Intent(base_activity, DailyUserProfile.class);
+        i.putExtra("Position", pos);
+        _("Came here");
+        base_activity.startActivity(i);
     }
 
     @Override
