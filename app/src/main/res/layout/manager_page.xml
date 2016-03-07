@@ -12,7 +12,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <TextView
@@ -54,7 +54,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         android:weightSum="10">
 
 
@@ -73,7 +73,9 @@
                 style="@style/menu_price_text"
                 android:text="Breakfast:" />
 
-            <EditText style="@style/menu_price_value" />
+            <EditText
+                android:id="@+id/et_breakfast_price"
+                style="@style/menu_price_value" />
         </LinearLayout>
 
         <LinearLayout style="@style/layout_menu_price">
@@ -82,7 +84,9 @@
                 style="@style/menu_price_text"
                 android:text="Lunch:" />
 
-            <EditText style="@style/menu_price_value" />
+            <EditText
+                android:id="@+id/et_lunch_price"
+                style="@style/menu_price_value" />
         </LinearLayout>
 
         <LinearLayout style="@style/layout_menu_price">
@@ -91,7 +95,9 @@
                 style="@style/menu_price_text"
                 android:text="Dinner:" />
 
-            <EditText style="@style/menu_price_value" />
+            <EditText
+                android:id="@+id/et_dinner_price"
+                style="@style/menu_price_value" />
         </LinearLayout>
 
         <LinearLayout style="@style/layout_menu_price">
@@ -100,7 +106,9 @@
                 style="@style/menu_price_text"
                 android:text="Special Items:" />
 
-            <EditText style="@style/menu_price_value" />
+            <EditText
+                android:id="@+id/et_special_item_price"
+                style="@style/menu_price_value" />
         </LinearLayout>
 
         <Button
