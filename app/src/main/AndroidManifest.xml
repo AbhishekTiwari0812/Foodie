@@ -20,6 +20,10 @@
         <activity
             android:name=".DailyUserProfile"
             android:label="Foodie" />
+        <activity
+            android:name=".ManagerPage"
+            android:label="Foodie" />
+
     </application>
 
 </manifest>

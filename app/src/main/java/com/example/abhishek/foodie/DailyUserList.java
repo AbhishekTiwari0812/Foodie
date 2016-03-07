@@ -22,7 +22,6 @@ public class DailyUserList extends ListActivity {
         CustomAdapter adapter = new CustomAdapter(this, listItems, getResources());
         expandableList.setAdapter(adapter);
         ListView lv = getListView();
-        _("REACHED HEREERE");
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

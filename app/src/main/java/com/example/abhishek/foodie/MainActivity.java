@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button_daily_user;
     private Button button_guest;
     private Button button_one_time_user;
-
+    private Button manager_login_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        manager_login_button = (Button) findViewById(R.id.manager);
+        manager_login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: open login page
+                Intent intent = new Intent(MainActivity.this, ManagerPage.class);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
 
