@@ -28,7 +28,6 @@ public class ManagerPage extends AppCompatActivity {
         final Context context = this;
         setContentView(R.layout.manager_page);
         layout_type = 1;
-        //TODO: manage onBackPressed Button
         //TODO: set the prices in the edit price boxes
         ll_login = (LinearLayout) findViewById(R.id.manager_login_page);
         ll_home_page = (LinearLayout) findViewById(R.id.manger_page);
@@ -77,7 +76,7 @@ public class ManagerPage extends AppCompatActivity {
                 layout_type = 3;
                 ll_home_page.setVisibility(View.GONE);
                 ll_edit_password_page.setVisibility(View.VISIBLE);
-                //TODO: verify and reste password
+                //TODO: verify and reset password
             }
         });
     }
