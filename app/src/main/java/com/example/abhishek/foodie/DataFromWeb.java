@@ -1,5 +1,8 @@
 package com.example.abhishek.foodie;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 /**
  * Created by Abhishek on 14-03-2016.
  */
@@ -10,4 +13,5 @@ public class DataFromWeb {
     public static String get_manager_password() {
         return manager_login_password;
     }
+
 }

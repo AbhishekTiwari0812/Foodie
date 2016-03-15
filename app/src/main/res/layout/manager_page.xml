@@ -12,7 +12,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <TextView
@@ -160,7 +160,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -180,7 +180,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <EditText
-                android:id="@+id/old_password"
+                android:id="@+id/et_old_password"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
@@ -206,7 +206,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <EditText
-                android:id="@+id/new_password"
+                android:id="@+id/et_new_password"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
@@ -232,7 +232,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <EditText
-                android:id="@+id/new_password_repeated"
+                android:id="@+id/et_new_password_repeated"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"

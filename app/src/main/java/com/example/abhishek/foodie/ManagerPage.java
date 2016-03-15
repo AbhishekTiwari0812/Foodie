@@ -26,12 +26,16 @@ public class ManagerPage extends AppCompatActivity {
     EditText et_dinner_price;
     EditText et_special_item_price;
     EditText manager_password_field;
+    EditText et_old_password;
+    EditText et_new_password;
+    EditText et_new_password_again;
     int layout_type;        // ==1 for login page, ==2 for set prices page,  ==3 for edit password page
     SharedPreferences sharedPreferences;
     String current_breakfast_price;
     String current_lunch_price;
     String current_dinner_price;
     String current_special_item_price;
+    Button bt_change_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +47,21 @@ public class ManagerPage extends AppCompatActivity {
         ll_login = (LinearLayout) findViewById(R.id.manager_login_page);
         ll_home_page = (LinearLayout) findViewById(R.id.manger_page);
         ll_edit_password_page = (LinearLayout) findViewById(R.id.layout_edit_password);
+        ll_login.setVisibility(View.VISIBLE);
+        ll_home_page.setVisibility(View.GONE);
+        ll_edit_password_page.setVisibility(View.GONE);
         login_button = (Button) findViewById(R.id.manager_log_in);
         price_reset_button = (Button) findViewById(R.id.button_reset_price);
         reset_password_button = (Button) findViewById(R.id.button_reset_password);
+        bt_change_password = (Button) findViewById(R.id.button_change_password);
         manager_password_field = (EditText) findViewById(R.id.et_manager_password);
         et_breakfast_price = (EditText) findViewById(R.id.et_breakfast_price);
         et_lunch_price = (EditText) findViewById(R.id.et_lunch_price);
         et_dinner_price = (EditText) findViewById(R.id.et_dinner_price);
         et_special_item_price = (EditText) findViewById(R.id.et_special_item_price);
+        et_old_password = (EditText) findViewById(R.id.et_old_password);
+        et_new_password = (EditText) findViewById(R.id.et_new_password);
+        et_new_password_again = (EditText) findViewById(R.id.et_new_password_repeated);
         sharedPreferences = getSharedPreferences(DailyUserProfile.PREF_FILE_NAME, Context.MODE_PRIVATE);
         current_breakfast_price = sharedPreferences.getString("breakfast", "0");
         current_lunch_price = sharedPreferences.getString("lunch", "0");
@@ -65,7 +76,8 @@ public class ManagerPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO:::::: check whether the password is correct or not
-                String actual_password = DataFromWeb.get_manager_password();
+                //String actual_password = DataFromWeb.get_manager_password();
+                String actual_password = sharedPreferences.getString("manager_password", "1234");
                 String entered_password = manager_password_field.getText().toString();
                 boolean correct = entered_password.equals(actual_password);
                 if (correct) {
@@ -100,7 +112,29 @@ public class ManagerPage extends AppCompatActivity {
                 layout_type = 3;
                 ll_home_page.setVisibility(View.GONE);
                 ll_edit_password_page.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+        bt_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 //TODO: verify and reset password
+                String old_password = et_old_password.getText().toString();
+                String new_password = et_new_password.getText().toString();
+                String new_password_again = et_new_password_again.getText().toString();
+                if (old_password.equals(sharedPreferences.getString("manager_password", "1234"))) {
+                    if (new_password.equals(new_password_again)) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("manager_password", new_password);
+                        editor.commit();
+                        Toast.makeText(getApplication().getApplicationContext(), "Password changed", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplication().getApplicationContext(), "New passwords didn't match.Try again ", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplication().getApplicationContext(), "Old Password is not correct.Try again", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
