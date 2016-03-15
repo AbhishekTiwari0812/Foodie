@@ -70,12 +70,13 @@
 
     <style name="menu_price_value">
         <item name="android:layout_height">match_parent</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_gravity">center</item>
+   <!--     <item name="android:gravity">center</item>-->
+   <!--     <item name="android:layout_gravity">center</item>-->
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:ems">10</item>
         <item name="android:inputType">number</item>
+        <item name="android:hint">Price here</item>
     </style>
 </resources>

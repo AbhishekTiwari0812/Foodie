@@ -48,6 +48,7 @@
             android:text="Breakfast" />
 
         <TextView
+            android:id="@+id/tv_breakfast_price"
             style="@style/user_profile_price_tag"
             android:text="$3.99/-" />
     </LinearLayout>
@@ -59,6 +60,7 @@
             android:text="Lunch" />
 
         <TextView
+            android:id="@+id/tv_lunch_price"
             style="@style/user_profile_price_tag"
             android:text="$6.99/-" />
     </LinearLayout>
@@ -70,6 +72,7 @@
             android:text="Dinner" />
 
         <TextView
+            android:id="@+id/tv_dinner_price"
             style="@style/user_profile_price_tag"
             android:text="$7.99/-" />
     </LinearLayout>
@@ -81,6 +84,7 @@
             android:text="Extra" />
 
         <TextView
+            android:id="@+id/tv_special_item_price"
             style="@style/user_profile_price_tag"
             android:text="$1.99/-" />
     </LinearLayout>
@@ -88,6 +92,7 @@
 
     <Button
         android:id="@+id/button_pic"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
