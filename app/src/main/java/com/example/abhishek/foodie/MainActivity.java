@@ -1,10 +1,12 @@
 package com.example.abhishek.foodie;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import static com.example.abhishek.foodie.R.id.daily_user;
 import static com.example.abhishek.foodie.R.id.one_time_user;
@@ -14,11 +16,14 @@ public class MainActivity extends AppCompatActivity {
     private Button button_guest;
     private Button button_one_time_user;
     private Button manager_login_button;
+    static Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
         button_daily_user = (Button) findViewById(R.id.daily_user);
         button_daily_user.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        //get the list of users from the web in the background
 
     }
 

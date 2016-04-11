@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context="com.example.abhishek.foodie.MainActivity">
 
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
