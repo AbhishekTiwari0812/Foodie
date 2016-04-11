@@ -62,7 +62,7 @@ public class ManagerPage extends AppCompatActivity {
         et_old_password = (EditText) findViewById(R.id.et_old_password);
         et_new_password = (EditText) findViewById(R.id.et_new_password);
         et_new_password_again = (EditText) findViewById(R.id.et_new_password_repeated);
-        sharedPreferences = getSharedPreferences(DailyUserProfile.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(UserProfile.PREF_FILE_NAME, Context.MODE_PRIVATE);
         current_breakfast_price = sharedPreferences.getString("breakfast", "0");
         current_lunch_price = sharedPreferences.getString("lunch", "0");
         current_dinner_price = sharedPreferences.getString("dinner", "0");

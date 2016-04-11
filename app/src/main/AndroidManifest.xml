@@ -16,10 +16,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DailyUserList"
+            android:name=".UserList"
             android:label="Foodie" />
         <activity
-            android:name=".DailyUserProfile"
+            android:name=".UserProfile"
             android:label="Foodie" />
         <activity
             android:name=".ManagerPage"

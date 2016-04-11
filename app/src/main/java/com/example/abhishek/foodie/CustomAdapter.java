@@ -1,31 +1,28 @@
 package com.example.abhishek.foodie;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
-import android.graphics.LinearGradient;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class CustomAdapter extends BaseAdapter {
     Activity base_activity;
-    private ArrayList<UserListItem> list_items;
+    private ArrayList<User> list_items;
     Resources resources;
     LayoutInflater inflater;
 
-    public CustomAdapter(Activity a, ArrayList<UserListItem> list_items, Resources resources) {
+    public CustomAdapter(Activity a, ArrayList<User> list_items, Resources resources) {
         base_activity = a;
         this.list_items = list_items;
         this.resources = resources;
@@ -36,13 +33,13 @@ public class CustomAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View listView = convertView;
         if (convertView == null) {
-            listView = inflater.inflate(R.layout.daily_user_list_item, parent, false);
+            listView = inflater.inflate(R.layout.user_list_item, parent, false);
         }
         TextView user_index = (TextView) listView.findViewById(R.id.daily_user_index);
         user_index.setText(" " + (position + 1) + ".)");
-        //// TODO: FIND AN ALTERNATIVE WAY TO SET ON ITEM CLICK LISTENER
         RelativeLayout rl = (RelativeLayout) listView.findViewById(R.id.list_item_layout);
         TextView UserName = (TextView) listView.findViewById(R.id.daily_user_name);
+        UserName.setText(this.list_items.get(position).user_name);
         ImageView UserDP = (ImageView) listView.findViewById(R.id.user_image);
         rl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,9 +63,8 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     void open_home_page(int pos) {
-        Intent i = new Intent(base_activity, DailyUserProfile.class);
-        i.putExtra("Position", pos);
-        _("Came here");
+        Intent i = new Intent(base_activity, UserProfile.class);
+        i.putExtra("Position", list_items.get(pos).posisition_in_display_list);
         base_activity.startActivity(i);
     }
 

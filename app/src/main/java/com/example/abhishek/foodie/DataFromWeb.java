@@ -1,9 +1,5 @@
 package com.example.abhishek.foodie;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.provider.Settings;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -18,25 +14,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Abhishek on 14-03-2016.
  */
-//Just a prototype
+
 public class DataFromWeb {
 
 
     TextView output;
     static String loginURL = "https://iems-demo.herokuapp.com/api/v1/users";
-    static String data = "";
-
-
+    static boolean is_user_list_ready = false;
     static RequestQueue requestQueue;
 
-    static Map<Long, User> GetUsersList() {
-        final Map<Long, User> m = new HashMap<Long, User>();
+    static ArrayList<User> GetUsersList() {
+        final ArrayList<User> m = new ArrayList<User>();
         p("started looking for data");
         requestQueue = Volley.newRequestQueue(MainActivity.context);
         JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, loginURL, null,
@@ -51,7 +46,8 @@ public class DataFromWeb {
                                 long user_id = jsonObject.getLong("id");
                                 String user_name = jsonObject.getString("name");
                                 Boolean is_guest = jsonObject.getBoolean("guest");
-                                m.put(user_id, new User(user_id, user_name, is_guest));
+                                p("Adding:" + user_name);
+                                m.add(new User(user_id, user_name, is_guest));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -67,6 +63,7 @@ public class DataFromWeb {
                 }
         );
         requestQueue.add(jor);
+        is_user_list_ready = true;
         return m;
     }
 
