@@ -1,2 +1,2 @@
 # Foodie
-Adding the Android App of the software to the repo
+The app for the project IEMS in Software Engineering Course 
