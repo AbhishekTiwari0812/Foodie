@@ -9,18 +9,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class UserProfile extends AppCompatActivity {
-    TextView breakfast_price, lunch_price, dinner_price, special_item_price;
+    //0 for breakfast, 1 for lunch, 2 dinner ,3 for special item.
+    TextView[] price_textview;
     TextView user_display_name;
     static final String PREF_FILE_NAME = "my_price_file";
     User current_user;
     FoodMenuItem foodTaken;
+
     Button button_start_transaction;
-    int breakfast_counter, lunch_counter, dinner_counter, special_item_counter;
-    double current_breakfast_price;
-    double current_lunch_price;
-    double current_dinner_price;
-    double current_special_item_price;
-    TextView[] plus_button;         //0 for breakfast, 1 for lunch, 2 dinner ,3 for special item.
+
+    float[] prices;
+    TextView[] plus_button;
     TextView[] minus_button;
     int[] counter;
 
@@ -33,12 +32,13 @@ public class UserProfile extends AppCompatActivity {
         current_user = MainActivity.list_of_all_users.get(user_index);
 
         user_display_name = (TextView) findViewById(R.id.user_name);
-        breakfast_price = (TextView) findViewById(R.id.tv_breakfast_price);
-        lunch_price = (TextView) findViewById(R.id.tv_lunch_price);
-        dinner_price = (TextView) findViewById(R.id.tv_dinner_price);
-        special_item_price = (TextView) findViewById(R.id.tv_special_item_price);
-        button_start_transaction = (Button) findViewById(R.id.bt_confirm_transaction);
 
+        price_textview = new TextView[4];
+        price_textview[0] = (TextView) findViewById(R.id.tv_0);
+        price_textview[1] = (TextView) findViewById(R.id.tv_1);
+        price_textview[2] = (TextView) findViewById(R.id.tv_2);
+        price_textview[3] = (TextView) findViewById(R.id.tv_3);
+        button_start_transaction = (Button) findViewById(R.id.bt_confirm_transaction);
         //initializing the counters
         plus_button = new TextView[4];
         plus_button[0] = (TextView) findViewById(R.id.plus0);
@@ -50,40 +50,42 @@ public class UserProfile extends AppCompatActivity {
         minus_button[1] = (TextView) findViewById(R.id.minus1);
         minus_button[2] = (TextView) findViewById(R.id.minus2);
         minus_button[3] = (TextView) findViewById(R.id.minus3);
-        counter = new int[4];
-        for (int i = 0; i < 4; i++)
-            counter[i] = 0;
         initPage();
         refresh_price_value();
-
     }
 
     void initPage() {
-        breakfast_counter = lunch_counter = dinner_counter = special_item_counter = 0;
+
         SharedPreferences sharedPreferences = getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        current_breakfast_price = Double.parseDouble(sharedPreferences.getString("breakfast", "0"));
-        current_lunch_price = Double.parseDouble(sharedPreferences.getString("lunch", "0"));
-        current_dinner_price = Double.parseDouble(sharedPreferences.getString("dinner", "0"));
-        current_special_item_price = Double.parseDouble(sharedPreferences.getString("special_item", "0"));
+        prices = new float[4];
+
+        prices[0] = sharedPreferences.getFloat("breakfast", 0.0f);
+        prices[1] = sharedPreferences.getFloat("lunch", 0.0f);
+        prices[2] = sharedPreferences.getFloat("dinner", 0.0f);
+        prices[3] = sharedPreferences.getFloat("special_item", 0.0f);
         user_display_name.setText(current_user.user_name);
         //TODO: start taking photo activity
-        //TODO: set the profile name and profile picture fetched from the database
-        //TODO: remove the buttons and add a counter.
+        //TODO: set the profile picture fetched from the database
         button_start_transaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: wait till photo is taken
-                Transaction.createTransaction(current_user, getFoodItem());
-
 
             }
         });
         //init item counters
+        counter = new int[4];
+        //TODO: extension::
+        //TODO: based on the time of the day, increase one counter and leave others ZERO.
+        for (int i = 0; i < 4; i++)
+            counter[i] = 0;
+
         for (int i = 0; i < 4; i++) {
             final int finalI = i;
             plus_button[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    p("changing the price");
                     counter[finalI]++;
                     refresh_price_value();
                 }
@@ -103,26 +105,15 @@ public class UserProfile extends AppCompatActivity {
 
     }
 
-    public FoodMenuItem getFoodItem() {
-        if (breakfast_counter != 0) {
-            foodTaken = new FoodMenuItem(FOOD_TYPE.BREAKFAST, breakfast_counter);
+    void refresh_price_value() {
+        for (int i = 0; i < 4; i++) {
+            p("Item:" + counter[i]);
+            p("New price:" + Float.toString(prices[i] * counter[i]));
+            price_textview[i].setText("Rs " + Float.toString(prices[i] * counter[i]));
         }
-        if (lunch_counter != 0) {
-
-        }
-        if (dinner_counter != 0) {
-
-        }
-        if (special_item_counter != 0) {
-
-        }
-        return foodTaken;
     }
 
-    void refresh_price_value() {
-        breakfast_price.setText("Rs " + (current_breakfast_price * breakfast_counter));
-        lunch_price.setText("Rs " + (current_lunch_price * lunch_counter));
-        dinner_price.setText("Rs " + (current_dinner_price * dinner_counter));
-        special_item_price.setText("Rs " + (special_item_counter * current_special_item_price));
+    void p(String str) {
+        System.out.println("" + str);
     }
 }

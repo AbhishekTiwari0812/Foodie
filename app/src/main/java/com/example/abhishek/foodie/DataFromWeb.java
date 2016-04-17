@@ -29,6 +29,9 @@ public class DataFromWeb {
     static RequestQueue requestQueue;
 
     static ArrayList<User> GetUsersList() {
+        //TODO: check internet connection
+        //if not connected, fetch from the database.
+        //show progress dialogue.
         final ArrayList<User> m = new ArrayList<User>();
         p("started looking for data");
         requestQueue = Volley.newRequestQueue(MainActivity.context);
@@ -46,6 +49,7 @@ public class DataFromWeb {
                                 Boolean is_guest = jsonObject.getBoolean("guest");
                                 p("Adding:" + user_name);
                                 m.add(new User(user_id, user_name, is_guest));
+                                //add this list to the database.
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

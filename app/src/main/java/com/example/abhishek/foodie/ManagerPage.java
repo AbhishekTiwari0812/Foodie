@@ -118,7 +118,7 @@ public class ManagerPage extends AppCompatActivity {
                     editor.putFloat("special_item", Float.parseFloat(et_special_item_price.getText().toString()));
                     editor.commit();
                     Toast.makeText(ManagerPage.this, "price of items havem been modified", Toast.LENGTH_LONG).show();
-                    _(sharedPreferences.getString("breakfast", "Not working correctly"));
+                    //_(sharedPreferences.getString("breakfast", "Not working correctly"));
                 } catch (NumberFormatException e) {
                     Toast.makeText(ManagerPage.this, "Price format is wrong, only numbers are allowed in the price field", Toast.LENGTH_LONG).show();
                 }
@@ -157,8 +157,6 @@ public class ManagerPage extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     @Override

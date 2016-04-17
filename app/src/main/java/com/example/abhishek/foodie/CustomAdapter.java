@@ -64,7 +64,7 @@ public class CustomAdapter extends BaseAdapter {
 
     void open_home_page(int pos) {
         Intent i = new Intent(base_activity, UserProfile.class);
-        i.putExtra("Position", list_items.get(pos).posisition_in_display_list);
+        i.putExtra("Position", list_items.get(pos).position_in_display_list);
         base_activity.startActivity(i);
     }
 

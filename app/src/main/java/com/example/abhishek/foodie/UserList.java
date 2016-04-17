@@ -51,7 +51,7 @@ public class UserList extends ListActivity {
             User user = usersList.get(i);
             p("User:" + user.user_name);
             if (is_guest == user.is_guest) {     //if only guests are requested, add only the guests
-                user.posisition_in_display_list = i;
+                user.position_in_display_list = i;
                 listItems.add(user);
 
                 p("Adding :" + user.user_name);
