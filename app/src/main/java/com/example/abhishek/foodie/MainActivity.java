@@ -18,7 +18,12 @@ public class MainActivity extends AppCompatActivity {
     static Context context;
     static ArrayList<User> list_of_all_users;
 
-
+    //TODO; check internet connection
+    //TODO: get the list of users from the web if connected
+    //TODO: if not, fetch from temp DB, show toast to the User and keep trying to refresh
+    //TODO: send transaction if connected to web otherwise store it to send later.
+    //TODO: API authentication
+    //TODO: sending images
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +35,6 @@ public class MainActivity extends AppCompatActivity {
         manager_login_button = (Button) findViewById(R.id.manager);
         initPage();
         list_of_all_users = DataFromWeb.GetUsersList();
-
-        //get the list of users from the web in the background
-
     }
 
     void initPage() {

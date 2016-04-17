@@ -7,7 +7,7 @@ public class User {
     long user_id;       //unique id of the user.
     String user_name;   //name of the user
     Boolean is_guest;       //  is the current user a guest or not.
-    int posisition_in_display_list;
+    int position_in_display_list;
 
     User(long id, String name, Boolean is_guest) {
         this.user_id = user_id;

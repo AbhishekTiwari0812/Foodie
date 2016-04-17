@@ -23,8 +23,6 @@ import java.util.Map;
  */
 
 public class DataFromWeb {
-
-
     TextView output;
     static String loginURL = "https://iems-demo.herokuapp.com/api/v1/users";
     static boolean is_user_list_ready = false;

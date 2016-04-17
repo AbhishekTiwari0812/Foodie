@@ -48,6 +48,14 @@
             android:text="Breakfast" />
 
         <TextView
+            android:id="@+id/plus0"
+            style="@style/plus_button" />
+
+        <TextView
+            android:id="@+id/minus0"
+            style="@style/minus_button" />
+
+        <TextView
             android:id="@+id/tv_breakfast_price"
             style="@style/user_profile_price_tag"
             android:text="$3.99/-" />
@@ -58,6 +66,15 @@
         <Button
             style="@style/user_profile_button"
             android:text="Lunch" />
+
+        <TextView
+            android:id="@+id/plus1"
+            style="@style/plus_button" />
+
+        <TextView
+            android:id="@+id/minus1"
+            style="@style/minus_button" />
+
 
         <TextView
             android:id="@+id/tv_lunch_price"
@@ -72,6 +89,15 @@
             android:text="Dinner" />
 
         <TextView
+            android:id="@+id/plus2"
+            style="@style/plus_button" />
+
+        <TextView
+            android:id="@+id/minus2"
+            style="@style/minus_button" />
+
+
+        <TextView
             android:id="@+id/tv_dinner_price"
             style="@style/user_profile_price_tag"
             android:text="$7.99/-" />
@@ -84,6 +110,14 @@
             android:text="Extra" />
 
         <TextView
+            android:id="@+id/plus3"
+            style="@style/plus_button" />
+
+        <TextView
+            android:id="@+id/minus3"
+            style="@style/minus_button" />
+
+        <TextView
             android:id="@+id/tv_special_item_price"
             style="@style/user_profile_price_tag"
             android:text="$1.99/-" />
@@ -92,7 +126,6 @@
 
     <Button
         android:id="@+id/button_pic"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -103,10 +136,11 @@
         android:paddingRight="20dp"
         android:text="Take a pic"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:visibility="gone" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/bt_confirm_transaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
