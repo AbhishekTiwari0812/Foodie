@@ -1,6 +1,7 @@
 package com.example.abhishek.foodie;
 
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by Abhishek on 11-04-2016.
@@ -8,21 +9,26 @@ import java.sql.Time;
 public class Transaction {
     long transaction_id;        //unique transaction id, maybe timeStamp can be used?!
     long user_id;               //user who caused this transaction
+    boolean is_guest;
+    char food_type;              //type of food he/she took
+    float price;                  //price of the food
     String user_img;            //image taken at the moment, for authentication records
-    FOOD_TYPE food_type;              //type of food he/she took
-    double price;                  //price of the food
-    long time_label;             //time ?
+    public Date time_stamp;
 
-    static Transaction createTransaction(User a, FoodMenuItem f) {
-        Transaction t = new Transaction();
-        t.transaction_id = System.currentTimeMillis();  //this must be a unique id
-        t.user_id = a.user_id;
-        t.food_type = f.getType();
-        t.price = f.getPrice();
-        return t;
-    }
-
-    void makeTransaction() {
-
+    void setFoodType(int i) {
+        switch (i) {
+            case 0:
+                this.food_type = 'B';
+                break;
+            case 1:
+                this.food_type = 'L';
+                break;
+            case 2:
+                this.food_type = 'D';
+                break;
+            case 3:
+                this.food_type = 'S';
+                break;
+        }
     }
 }

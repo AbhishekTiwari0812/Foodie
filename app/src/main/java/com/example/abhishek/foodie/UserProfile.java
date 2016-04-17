@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Date;
+
 public class UserProfile extends AppCompatActivity {
     //0 for breakfast, 1 for lunch, 2 dinner ,3 for special item.
     TextView[] price_textview;
@@ -15,7 +17,7 @@ public class UserProfile extends AppCompatActivity {
     static final String PREF_FILE_NAME = "my_price_file";
     User current_user;
     FoodMenuItem foodTaken;
-
+    static Context context;
     Button button_start_transaction;
 
     float[] prices;
@@ -28,6 +30,7 @@ public class UserProfile extends AppCompatActivity {
         //TODO: start taking photo activity in the background
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_home_page);
+        context=this;
         int user_index = getIntent().getIntExtra("Position", 0);
         current_user = MainActivity.list_of_all_users.get(user_index);
 
@@ -69,6 +72,28 @@ public class UserProfile extends AppCompatActivity {
         button_start_transaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (int i = 0; i < 4; i++) {
+                    if (counter[i] > 0) {
+                        //creating a new transaction
+                        Transaction t = new Transaction();
+                        t.transaction_id = System.currentTimeMillis();
+                        t.user_id = current_user.user_id;
+                        t.is_guest = current_user.is_guest;
+                        t.setFoodType(i);
+                        t.price = prices[i] * counter[i];
+                        t.time_stamp = new Date();
+                        //TODO: get today's date dd/mm/yyyy format string.
+                        DataToWeb.sendTransaction(t);
+                    }
+                }
+                //get the user id.
+                //get the type of food taken
+                //get the number of items taken
+                //if food items taken are more than 1, do more transaction.
+                //add the transaction to the send queue.
+                //TODO: make it fail-safe...
+                //TODO:handle the case when internet is not connected.
+                //show a progress bar.
                 //TODO: wait till photo is taken
 
             }
