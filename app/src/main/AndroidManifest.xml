@@ -24,7 +24,8 @@
         <activity
             android:name=".ManagerPage"
             android:label="Foodie" />
-
+<service android:name=".BackgroundServices"></service>
     </application>
+
 
 </manifest>

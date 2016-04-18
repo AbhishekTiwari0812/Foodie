@@ -148,7 +148,7 @@
             android:background="@color/colorPrimaryDark"
             android:paddingLeft="7dp"
             android:paddingRight="7dp"
-            android:text="Edit Password"
+            android:text="Change Settings"
             android:textColor="#ffffff" />
 
 
@@ -251,6 +251,28 @@
             android:background="@color/colorPrimaryDark"
             android:padding="4dp"
             android:text="Change Password"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/failed_transaction_lister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimaryDark"
+            android:padding="8dp"
+            android:text="PENDING TRANSACTIONS"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/stop_background_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="#f51f26"
+            android:padding="8dp"
+            android:text="STOP BACKGROUND SERVICES"
             android:textColor="#ffffff" />
 
 

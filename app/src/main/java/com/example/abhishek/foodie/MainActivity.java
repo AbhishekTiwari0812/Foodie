@@ -2,13 +2,13 @@ package com.example.abhishek.foodie;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private Button button_daily_user;
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Button manager_login_button;
     static Context context;
     static ArrayList<User> list_of_all_users;
-
+    static SharedPreferences sharedPreferences;
     //TODO: if not, fetch from temp DB, show toast to the User and keep trying to refresh
     //TODO: send transaction if connected to web otherwise store it to send later.
     //TODO: API authentication
@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         button_one_time_user = (Button) findViewById(R.id.one_time_user);
         manager_login_button = (Button) findViewById(R.id.manager);
         initPage();
+        sharedPreferences = getSharedPreferences(Transaction.FAILED_TRANSACTION_FILE, Context.MODE_PRIVATE);
+
+        startService(new Intent(getApplicationContext(), BackgroundServices.class));
         list_of_all_users = DataFromWeb.GetUsersList();
     }
 

@@ -18,14 +18,14 @@ import org.json.JSONObject;
 public class DataToWeb {
     static final String URL_TO_SEND_TRANSACTION = "http://iems-demo.herokuapp.com/api/v1/transaction";
 
-    public static void sendTransaction(Transaction t) {
-        String json_transaction = "{\"transaction\": {\"guest_transaction\": " + Boolean.toString(t.is_guest) + ", \"regular_user_id\": " + Long.toString(t.user_id) + ", \"food_type\": \"" + t.food_type + "\", \"price\": " + Float.toString(t.price) + ", \"date\": \"" + (t.time_stamp) + "\"}}";
+    public static void sendTransaction(final Transaction t) {
+        final String json_transaction = "{\"transaction\": {\"guest_transaction\": " + Boolean.toString(t.is_guest) + ", \"regular_user_id\": " + Long.toString(t.user_id) + ", \"food_type\": \"" + t.food_type + "\", \"price\": " + Float.toString(t.price) + ", \"date\": \"" + (t.time_stamp) + "\"}}";
         JSONObject json_object = null;
         try {
             json_object = new JSONObject(json_transaction);
         } catch (JSONException e) {
-            p("Some error in the json string format");
-            p("Transaction failed.\n Try again");
+            t.addToFailedTransactionList(json_transaction, t.time_stamp.toString());
+            Toast.makeText(UserProfile.context, "Fatal error:Some transactions failed, inform the manager!!", Toast.LENGTH_SHORT).show();
             return;
         }
         p("Transaction being sent:" + json_transaction);
@@ -40,7 +40,7 @@ public class DataToWeb {
             @Override
             public void onErrorResponse(VolleyError error) {
                 p("Some error occurred with the transaction");
-                //TODO: Keep trying after certain interval if the internet connection is available.
+                t.addToFailedTransactionList(json_transaction, t.time_stamp.toString());
                 //TODO: if error caused is because of some other reason, inform the manager!!!
             }
         });

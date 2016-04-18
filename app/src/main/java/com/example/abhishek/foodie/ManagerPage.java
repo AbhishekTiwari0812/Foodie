@@ -1,6 +1,7 @@
 package com.example.abhishek.foodie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class ManagerPage extends AppCompatActivity {
     private Button login_button;
     private Button price_reset_button;
     private Button reset_password_button;
+    Button stop_service;
     LinearLayout ll_login;
     LinearLayout ll_home_page;
     LinearLayout ll_edit_password_page;
@@ -67,6 +69,7 @@ public class ManagerPage extends AppCompatActivity {
         et_old_password = (EditText) findViewById(R.id.et_old_password);
         et_new_password = (EditText) findViewById(R.id.et_new_password);
         et_new_password_again = (EditText) findViewById(R.id.et_new_password_repeated);
+        stop_service = (Button) findViewById(R.id.stop_background_service);
         //initializing the onClickListeners
         init_buttons();
         //setting the price of food items.
@@ -156,6 +159,12 @@ public class ManagerPage extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplication().getApplicationContext(), "Old Password is not correct.Try again", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+        stop_service.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopService(new Intent(getApplicationContext(), BackgroundServices.class));
             }
         });
     }
