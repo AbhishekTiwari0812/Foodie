@@ -18,8 +18,6 @@ public class MainActivity extends AppCompatActivity {
     static Context context;
     static ArrayList<User> list_of_all_users;
 
-    //TODO; check internet connection
-    //TODO: get the list of users from the web if connected
     //TODO: if not, fetch from temp DB, show toast to the User and keep trying to refresh
     //TODO: send transaction if connected to web otherwise store it to send later.
     //TODO: API authentication

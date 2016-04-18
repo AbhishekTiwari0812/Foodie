@@ -14,6 +14,7 @@ import android.widget.Toast;
 /**
  * Created by Abhishek on 07-03-2016.
  */
+//TODO: show the transactions which are still in the queue but not successfully sent yet.
 public class ManagerPage extends AppCompatActivity {
     private Button login_button;
     private Button price_reset_button;

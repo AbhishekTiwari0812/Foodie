@@ -1,6 +1,6 @@
 package com.example.abhishek.foodie;
 
-import android.provider.Settings;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,8 +19,6 @@ public class DataToWeb {
     static final String URL_TO_SEND_TRANSACTION = "http://iems-demo.herokuapp.com/api/v1/transaction";
 
     public static void sendTransaction(Transaction t) {
-        //TODO: create a string to make it parsable as JSON object
-
         String json_transaction = "{\"transaction\": {\"guest_transaction\": " + Boolean.toString(t.is_guest) + ", \"regular_user_id\": " + Long.toString(t.user_id) + ", \"food_type\": \"" + t.food_type + "\", \"price\": " + Float.toString(t.price) + ", \"date\": \"" + (t.time_stamp) + "\"}}";
         JSONObject json_object = null;
         try {
@@ -36,11 +34,14 @@ public class DataToWeb {
             @Override
             public void onResponse(JSONObject response) {
                 p("This is the response we got" + response.toString());
+                Toast.makeText(UserProfile.context, "Transaction is successful", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 p("Some error occurred with the transaction");
+                //TODO: Keep trying after certain interval if the internet connection is available.
+                //TODO: if error caused is because of some other reason, inform the manager!!!
             }
         });
         requestQueue.add(request);
