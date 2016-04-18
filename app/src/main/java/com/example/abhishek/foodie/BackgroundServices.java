@@ -67,7 +67,6 @@ public class BackgroundServices extends Service {
                 @Override
                 public void onResponse(JSONObject response) {
                     Toast.makeText(UserProfile.context, "Transaction is successful", Toast.LENGTH_SHORT).show();
-                    //delete the transaction from the buffer.
                     SharedPreferences.Editor e = sharedPreferences.edit();
                     e.remove(entry.getKey());
                     e.apply();
@@ -91,7 +90,7 @@ public class BackgroundServices extends Service {
     @Override
     public void onDestroy() {
         Toast.makeText(this, "Fatal error.Please restart the Foodie app", Toast.LENGTH_LONG).show();
-        //stop transaction thread
+        /*
         boolean success = false;
         while (!success) {
             try {
@@ -101,7 +100,7 @@ public class BackgroundServices extends Service {
                 e.printStackTrace();
             }
         }
-
+        */
         super.onDestroy();
     }
 }

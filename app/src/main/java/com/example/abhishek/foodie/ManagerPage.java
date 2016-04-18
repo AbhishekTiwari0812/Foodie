@@ -39,6 +39,7 @@ public class ManagerPage extends AppCompatActivity {
     float current_dinner_price;
     float current_special_item_price;
     Button bt_change_password;
+    Button failed_transaction_lister;
     Context context;
 
     @Override
@@ -70,6 +71,7 @@ public class ManagerPage extends AppCompatActivity {
         et_new_password = (EditText) findViewById(R.id.et_new_password);
         et_new_password_again = (EditText) findViewById(R.id.et_new_password_repeated);
         stop_service = (Button) findViewById(R.id.stop_background_service);
+        failed_transaction_lister = (Button) findViewById(R.id.failed_transaction_lister);
         //initializing the onClickListeners
         init_buttons();
         //setting the price of food items.
@@ -159,6 +161,13 @@ public class ManagerPage extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplication().getApplicationContext(), "Old Password is not correct.Try again", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+        failed_transaction_lister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PendingTransactionList.class);
+                startActivity(intent);
             }
         });
         stop_service.setOnClickListener(new View.OnClickListener() {

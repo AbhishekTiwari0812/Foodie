@@ -159,93 +159,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:padding="4dp"
         android:orientation="vertical"
         android:visibility="visible">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="10dp">
+        <TextView
+            style="@style/manager_page_setting_text"
+            android:text="Old Password" />
 
+        <EditText
+            android:id="@+id/et_old_password"
+            style="@style/manager_page_setting_edit_text" />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:text="Old Passowrd:"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <EditText
-                android:id="@+id/et_old_password"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_weight="5"
-                android:ems="10"
-                android:inputType="textPassword" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:text="New Password"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorPrimaryDark" />
-
+                style="@style/manager_page_setting_text"
+                android:text="New Password" />
             <EditText
                 android:id="@+id/et_new_password"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_weight="5"
-                android:ems="10"
-                android:inputType="textPassword" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
+                style="@style/manager_page_setting_edit_text" />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:text="Re-enter New Password "
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorPrimaryDark" />
-
+                style="@style/manager_page_setting_text"
+                android:text="Re-enter New Password " />
             <EditText
                 android:id="@+id/et_new_password_repeated"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_weight="5"
-                android:ems="10"
-                android:inputType="textPassword" />
-        </LinearLayout>
+                style="@style/manager_page_setting_edit_text" />
 
         <Button
             android:id="@+id/button_change_password"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimaryDark"
@@ -253,12 +195,18 @@
             android:text="Change Password"
             android:textColor="#ffffff" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorAccent"></LinearLayout>
         <Button
             android:id="@+id/failed_transaction_lister"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_weight="2"
             android:background="@color/colorPrimaryDark"
             android:padding="8dp"
             android:text="PENDING TRANSACTIONS"
@@ -267,11 +215,13 @@
         <Button
             android:id="@+id/stop_background_service"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:background="#f51f26"
             android:padding="8dp"
+            android:layout_weight="2"
             android:text="STOP BACKGROUND SERVICES"
             android:textColor="#ffffff" />
 

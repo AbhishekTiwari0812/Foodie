@@ -18,6 +18,7 @@ public class PendingTransactionList extends AppCompatActivity {
         setContentView(R.layout.pending_transaction);
         TextView tv = (TextView) findViewById(R.id.pending_transactions);
         SharedPreferences sharedPreferences = getSharedPreferences(Transaction.FAILED_TRANSACTION_FILE, Context.MODE_PRIVATE);
+
         Map<String, String> keys = (Map<String, String>) sharedPreferences.getAll();
         int i = 1;
         for (final Map.Entry<String, ?> entry : keys.entrySet()) {

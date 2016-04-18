@@ -24,7 +24,9 @@
         <activity
             android:name=".ManagerPage"
             android:label="Foodie" />
-<service android:name=".BackgroundServices"></service>
+        <activity android:name=".PendingTransactionList"></activity>
+
+        <service android:name=".BackgroundServices"></service>
     </application>
 
 
