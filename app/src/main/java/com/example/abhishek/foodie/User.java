@@ -10,7 +10,7 @@ public class User {
     int position_in_display_list;
 
     User(long id, String name, Boolean is_guest) {
-        this.user_id = user_id;
+        this.user_id = id;
         this.user_name = name;
         this.is_guest = is_guest;
     }

@@ -2,14 +2,24 @@ package com.example.abhishek.foodie;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
+@SuppressWarnings("ALL")
 public class UserProfile extends AppCompatActivity {
     //0 for breakfast, 1 for lunch, 2 dinner ,3 for special item.
     TextView[] price_textview;
@@ -19,17 +29,53 @@ public class UserProfile extends AppCompatActivity {
     FoodMenuItem foodTaken;
     static Context context;
     Button button_start_transaction;
-
+    boolean is_photo_taken;
     float[] prices;
     TextView[] plus_button;
     TextView[] minus_button;
+    String user_image;     //base64 string
     int[] counter;
+    FrameLayout user_image_preview;
+    Camera.PictureCallback mPicture = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+
+            Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+            //Compressing the Image and setting it in the image View
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            //Change the quality of image here
+            image.compress(Bitmap.CompressFormat.JPEG, 15, bos);
+            byte[] b = bos.toByteArray();
+
+            Bitmap bmp = BitmapFactory.decodeByteArray(b, 0, b.length);
+
+            //Error can occur if the API version is less than 16
+            user_image_preview.setBackground(new BitmapDrawable(bmp));
+            //Setting the image variable
+            user_image = Base64.encodeToString(b, Base64.DEFAULT);
+            //Sending the image to the server
+
+            System.out.println("ImageString" + user_image);
+            /*
+
+            } catch (FileNotFoundException e) {
+
+            } catch (IOException e) {
+            }   */
+        }
+    };
+    private Camera mCamera;
+    private CameraPreview mCameraPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //TODO: start taking photo activity in the background
         super.onCreate(savedInstanceState);
+        //todo: take photo, and populate user_image and change is_photo_taken to true
         setContentView(R.layout.user_home_page);
+        is_photo_taken = false;
+        //TODO: start taking photo activity in the background
+        takePicture();
         context=this;
         int user_index = getIntent().getIntExtra("Position", 0);
         current_user = MainActivity.list_of_all_users.get(user_index);
@@ -57,6 +103,18 @@ public class UserProfile extends AppCompatActivity {
         refresh_price_value();
     }
 
+    void refresh_price_value() {
+        for (int i = 0; i < 4; i++) {
+            p("Item:" + counter[i]);
+            p("New price:" + Float.toString(prices[i] * counter[i]));
+            price_textview[i].setText("Rs " + Float.toString(prices[i] * counter[i]));
+        }
+    }
+
+    void p(String str) {
+        System.out.println("" + str);
+    }
+
     void initPage() {
 
         SharedPreferences sharedPreferences = getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
@@ -69,9 +127,20 @@ public class UserProfile extends AppCompatActivity {
         user_display_name.setText(current_user.user_name);
         //TODO: start taking photo activity
         //TODO: set the profile picture fetched from the database
+
         button_start_transaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                while (!is_photo_taken) {
+                    try {
+                        Thread.sleep(10000);
+                        takePicture();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 for (int i = 0; i < 4; i++) {
                     if (counter[i] > 0) {
                         //creating a new transaction
@@ -82,6 +151,7 @@ public class UserProfile extends AppCompatActivity {
                         t.setFoodType(i);
                         t.price = prices[i] * counter[i];
                         t.time_stamp = new Date();
+                        t.user_img = user_image;
                         //TODO: get today's date dd/mm/yyyy format string.
                         DataToWeb.sendTransaction(t);
                     }
@@ -130,15 +200,38 @@ public class UserProfile extends AppCompatActivity {
 
     }
 
-    void refresh_price_value() {
-        for (int i = 0; i < 4; i++) {
-            p("Item:" + counter[i]);
-            p("New price:" + Float.toString(prices[i] * counter[i]));
-            price_textview[i].setText("Rs " + Float.toString(prices[i] * counter[i]));
+    //Adding Camera Functions
+    private Camera getCameraInstance() {
+        Camera camera = null;
+        try {
+            camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
+
+        } catch (Exception e) {
+            // cannot get camera or does not exist
+
+            //Toast.makeText(,"Error Opening Front Camera","Cannot open front Camera").show();
         }
+        return camera;
     }
 
-    void p(String str) {
-        System.out.println("" + str);
+    void takePicture() {
+        mCamera = getCameraInstance();
+        mCameraPreview = new CameraPreview(this, mCamera);
+        user_image_preview = (FrameLayout) findViewById(R.id.preview);
+        user_image_preview.addView(mCameraPreview);
+        Toast.makeText(UserProfile.this, "Please Adjust your face for Photoclick ", Toast.LENGTH_SHORT).show();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                mCamera.takePicture(null, null, mPicture);
+                is_photo_taken = true;
+                Toast.makeText(UserProfile.this, "Picture Taken", Toast.LENGTH_SHORT).show();
+            }
+        }, 6000);
+
+
     }
+
 }

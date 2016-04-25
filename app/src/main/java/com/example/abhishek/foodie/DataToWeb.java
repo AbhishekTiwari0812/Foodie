@@ -19,7 +19,7 @@ public class DataToWeb {
     static final String URL_TO_SEND_TRANSACTION = "http://iems-demo.herokuapp.com/api/v1/transaction";
 
     public static void sendTransaction(final Transaction t) {
-        final String json_transaction = "{\"transaction\": {\"guest_transaction\": " + Boolean.toString(t.is_guest) + ", \"regular_user_id\": " + Long.toString(t.user_id) + ", \"food_type\": \"" + t.food_type + "\", \"price\": " + Float.toString(t.price) + ", \"date\": \"" + (t.time_stamp) + "\"}}";
+        final String json_transaction = "{\"transaction\": {\"guest_transaction\": " + Boolean.toString(t.is_guest) + ", \"regular_user_id\": " + Long.toString(t.user_id) + ", \"food_type\": \"" + t.food_type + "\", \"price\": " + Float.toString(t.price) + ", \"date\": \"" + (t.time_stamp) + "\" ,\"image\":\"" + t.user_img + "\"}}";
         JSONObject json_object = null;
         try {
             json_object = new JSONObject(json_transaction);

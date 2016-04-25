@@ -1,7 +1,12 @@
 package com.example.abhishek.foodie;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,8 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Abhishek on 14-03-2016.
@@ -24,18 +27,36 @@ import java.util.Map;
 
 public class DataFromWeb {
     TextView output;
-    static String loginURL = "https://iems-demo.herokuapp.com/api/v1/users";
+    static final String LOGIN_URL = "https://iems-demo.herokuapp.com/api/v1/users";
+    static final String ACCESS_TOKEN_URL = "urlforgettingaccesstokengoeshere";
     static boolean is_user_list_ready = false;
     static RequestQueue requestQueue;
 
     static ArrayList<User> GetUsersList() {
-        //TODO: check internet connection
         //if not connected, fetch from the database.
-        //show progress dialogue.
         final ArrayList<User> m = new ArrayList<User>();
+        final ProgressDialog progress;
+        if (!isConnectingToInternet(MainActivity.context)) {
+            progress = ProgressDialog.show(MainActivity.context, "Loading",
+                    "Loading From the local database", true);
+            progress.setCancelable(true);
+            Toast.makeText(MainActivity.context, "Loading From the local database", Toast.LENGTH_SHORT).show();
+            if (GetUsersListLocal(MainActivity.context).size() != 0) {
+                progress.cancel();
+                return GetUsersListLocal(MainActivity.context);
+            } else {
+                progress.cancel();
+                Toast.makeText(MainActivity.context, "Please Connect to the Internet", Toast.LENGTH_LONG).show();
+                return m;
+            }
+        }
+
         p("started looking for data");
+        progress = ProgressDialog.show(MainActivity.context, "Loading",
+                "fetching user list from the web", true);
+        progress.setCancelable(true);
         requestQueue = Volley.newRequestQueue(MainActivity.context);
-        JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, loginURL, null,
+        JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, LOGIN_URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -49,8 +70,73 @@ public class DataFromWeb {
                                 Boolean is_guest = jsonObject.getBoolean("guest");
                                 p("Adding:" + user_name);
                                 m.add(new User(user_id, user_name, is_guest));
-                                //add this list to the database.
                             }
+                            //Since User List is ready,Updating the database
+                            updateDatabase(m);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } finally {
+                            progress.cancel();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Volley", "Error");
+                        progress.cancel();
+                    }
+                }
+        );
+        requestQueue.add(jor);
+        is_user_list_ready = true;
+
+        return m;
+    }
+
+    public static boolean isConnectingToInternet(Context _context) {
+        ConnectivityManager connectivity = (ConnectivityManager) _context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+        }
+        return false;
+    }
+
+    static String getAccessTokenFromWeb() {
+        final String[] AccessTokenForClient = {null};
+        requestQueue = Volley.newRequestQueue(MainActivity.context);
+        //TODO: edit the json_object
+        String key = "client_id";
+        String Clientid = "Client1";
+        String ident = "manager_password";
+        //TODO: manager password should be the value
+        String indentValue = "";
+        //access_token
+        JSONObject json_object = null;
+        JsonObjectRequest jor = new JsonObjectRequest(Request.Method.POST, ACCESS_TOKEN_URL, json_object,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject ja = response.getJSONObject("AccessToken");
+                            p("Acess token we got from the web:" + ja.toString());
+                            AccessTokenForClient[0] = (String) ja.get("AccessToken");
+                            /*
+                            for (int i = 0; i < ja.length(); i++) {
+                                JSONObject jsonObject = ja.getJSONObject(i);
+                                long user_id = jsonObject.getLong("id");
+                                String user_name = jsonObject.getString("name");
+                                Boolean is_guest = jsonObject.getBoolean("guest");
+                                p("Adding:" + user_name);
+                                m.add(new User(user_id, user_name, is_guest));
+                                //add this list to the database.
+                            }*/
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -65,12 +151,35 @@ public class DataFromWeb {
                 }
         );
         requestQueue.add(jor);
-        is_user_list_ready = true;
-        return m;
+        return AccessTokenForClient[0];
     }
 
+    static void updateDatabase(final ArrayList<User> m) {
+
+        Runnable updateThread = new Runnable() {
+            @Override
+            public void run() {
+
+                DatabaseHandler dbHandler = new DatabaseHandler(MainActivity.context);
+                dbHandler.updateUsers(m);
+            }
+        };
+
+        updateThread.run();
+
+    }
     static void p(String str) {
         System.out.println("" + str);
+    }
+
+    //Method to get the UserList from the database
+
+    static ArrayList<User> GetUsersListLocal(Context context) {
+        DatabaseHandler dbHandler = new DatabaseHandler(context);
+        ArrayList<User> m;
+        m = dbHandler.getAllUsers();
+        is_user_list_ready = true;
+        return m;
     }
 
 }

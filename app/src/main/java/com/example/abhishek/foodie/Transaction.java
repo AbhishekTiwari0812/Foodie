@@ -39,6 +39,7 @@ public class Transaction {
     void addToFailedTransactionList(String s, String id) {
         //checking if transaction already exists otherwise add to the transaction  buffer.
         String check_existence = MainActivity.sharedPreferences.getString(id, null);
+        sharedPreferences = BackgroundServices.sharedPreferences;
         if (check_existence == null) {
             SharedPreferences.Editor e = sharedPreferences.edit();
             e.putString(id, s);
