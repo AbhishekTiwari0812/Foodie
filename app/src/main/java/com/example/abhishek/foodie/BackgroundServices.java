@@ -41,6 +41,10 @@ public class BackgroundServices extends Service {
         return null;
     }
 
+    /*	returns void
+    *	Method to Retry Sending of the Failed Transation to the server
+    *	@return void
+    */
     void retryFailedTransactions() {
         Map<String, String> keys = (Map<String, String>) sharedPreferences.getAll();
         for (final Map.Entry<String, ?> entry : keys.entrySet()) {
@@ -69,6 +73,8 @@ public class BackgroundServices extends Service {
             requestQueue.add(request);
         }
     }
+
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -130,6 +136,11 @@ public class BackgroundServices extends Service {
         */
         super.onDestroy();
     }
+
+    /*	returns void
+    *	Method Updates the application database periodically
+    *	@return void
+    */
 
     void updateDatabaseOnService() {
         final ArrayList<User> m = new ArrayList<User>();

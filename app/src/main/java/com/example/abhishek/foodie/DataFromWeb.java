@@ -32,6 +32,8 @@ public class DataFromWeb {
     static boolean is_user_list_ready = false;
     static RequestQueue requestQueue;
 
+
+
     static ArrayList<User> GetUsersList() {
         //if not connected, fetch from the database.
         final ArrayList<User> m = new ArrayList<User>();

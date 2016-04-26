@@ -25,6 +25,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String GUEST = "guest";
 
 
+    /*	This is the constructor initialization for the DatabaseHandler Class which is used for handling database queries.
+    *	@param Context context
+    */
+
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -33,7 +37,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
-
+    /*	returns void
+    *	Creates a table in the database
+    *	@param db SQLiteDatabase Method is used to create Tables.
+    *	@return void
+    */
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -45,6 +53,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_USERS_TABLE);
     }
 
+    /*	returns void
+    *	This method is invoked when the database upgrade is detected.
+    *	@param SQLiteDatabase db Database instance
+    *	@param int oldVersion The previous version of the database
+    *	@param int newVersion The New version of the database
+    *	@return void
+    */
+
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
@@ -52,6 +69,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+
+
+    /*	returns void
+    *	This method is used to add user to the database
+    *	@param User user The User Object
+    *	@return void
+    */
 
     //Add Users
     public void addUser(User user)
@@ -67,6 +91,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(TABLE_USERS, null, values);
         db.close(); // Closing database connection
     }
+
+
+    /*	returns ArrayList of Users
+    *	This method is returns all the Users which are stored in the local database
+    *	@return ArrayList<User>
+    */
 
 
     //Get All Users
@@ -96,7 +126,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
        return m;
     }
 
-
+    /*	returns void
+    *	This method Updates the Users List in the database
+    *	@param ArrayList<User> m The List contains the User Objects which needs to be updated to the database
+    *	@return void
+    */
     public void updateUsers(ArrayList<User> m) {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
