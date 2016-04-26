@@ -1,5 +1,6 @@
 package com.example.abhishek.foodie;
 
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,7 +27,7 @@ public class DataToWeb {
             json_object = new JSONObject(json_transaction);
         } catch (JSONException e) {
             t.addToFailedTransactionList(json_transaction, t.time_stamp.toString());
-            Toast.makeText(UserProfile.context, "Fatal error:Some transactions failed, inform the manager!!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(UserProfile.context, "Fatal error:Some transactions failed, inform the manager!!", Toast.LENGTH_SHORT).show();
             return;
         }
         p("Transaction being sent:" + json_transaction);
@@ -35,6 +36,27 @@ public class DataToWeb {
             @Override
             public void onResponse(JSONObject response) {
                 p("This is the response we got" + response.toString());
+                try {
+                    String temp_object = response.getString("errors");
+                    p("This is the temp object");
+                    if (temp_object != null) {
+                        if (temp_object.equals("Not Authenticated")) {
+                            t.addToFailedTransactionList(json_transaction, t.time_stamp.toString());
+                            if (MainActivity.clientAccessTokenFetcher != null) {
+                                try {
+                                    SharedPreferences.Editor editor = MainActivity.clientAccessTokenFetcher.edit();
+                                    editor.putString("MyAccessToken", null);
+                                    editor.putString("MyAppId", null);
+                                    editor.putString("MyAppPassword", null);
+                                    editor.commit();
+                                } catch (Exception e) {
+                                }
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Toast.makeText(UserProfile.context, "Transaction is successful", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
