@@ -97,7 +97,7 @@ public class ManagerPage extends AppCompatActivity {
                 //TODO:::::: check whether the password is correct or not
                 //String actual_password = DataFromWeb.get_manager_password();
                 //TODO: remove this after done with the data from web class.
-                String actual_password = sharedPreferences.getString("manager_password", "1234");
+                String actual_password = sharedPreferences.getString("manager_password", "1");
 
                 String entered_password = manager_password_field.getText().toString();
                 boolean correct = entered_password.equals(actual_password);

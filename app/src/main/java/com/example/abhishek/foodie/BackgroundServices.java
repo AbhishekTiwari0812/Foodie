@@ -49,7 +49,7 @@ public class BackgroundServices extends Service {
             try {
                 json_object = new JSONObject(json_transaction);
             } catch (JSONException e) {
-                Toast.makeText(UserProfile.context, "Fatal error:Some transactions failed, inform the manager!!", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(UserProfile.context, "Fatal error:Some transactions failed, inform the manager!!", Toast.LENGTH_SHORT).show();
             }
             final RequestQueue requestQueue = Volley.newRequestQueue(BackgroundServices.this);
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_TO_SEND_TRANSACTION, json_object, new Response.Listener<JSONObject>() {

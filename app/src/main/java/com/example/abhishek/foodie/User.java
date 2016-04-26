@@ -8,15 +8,13 @@ public class User {
     String user_name;   //name of the user
     Boolean is_guest;       //  is the current user a guest or not.
     int position_in_display_list;
-
     User(long id, String name, Boolean is_guest) {
         this.user_id = id;
         this.user_name = name;
         this.is_guest = is_guest;
     }
 
-    //empty constructor
+    //added this to support creation of temp objects.
     User() {
-        //do nothing.
     }
 }

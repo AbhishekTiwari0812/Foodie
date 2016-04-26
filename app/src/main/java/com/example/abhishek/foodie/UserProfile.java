@@ -1,5 +1,6 @@
 package com.example.abhishek.foodie;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -25,7 +26,7 @@ public class UserProfile extends AppCompatActivity {
     TextView[] price_textview;
     TextView user_display_name;
     static final String PREF_FILE_NAME = "my_price_file";
-    User current_user;
+    static User current_user;
     FoodMenuItem foodTaken;
     static Context context;
     Button button_start_transaction;
@@ -33,29 +34,20 @@ public class UserProfile extends AppCompatActivity {
     float[] prices;
     TextView[] plus_button;
     TextView[] minus_button;
-    String user_image;     //base64 string
+    static String user_image;     //base64 string
     int[] counter;
+    Thread picture_taking_thread;
     FrameLayout user_image_preview;
     Camera.PictureCallback mPicture = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-
             Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-            //Compressing the Image and setting it in the image View
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            //Change the quality of image here
             image.compress(Bitmap.CompressFormat.JPEG, 15, bos);
             byte[] b = bos.toByteArray();
-
             Bitmap bmp = BitmapFactory.decodeByteArray(b, 0, b.length);
-
-            //Error can occur if the API version is less than 16
             user_image_preview.setBackground(new BitmapDrawable(bmp));
-            //Setting the image variable
             user_image = Base64.encodeToString(b, Base64.DEFAULT);
-            //Sending the image to the server
-
             System.out.println("ImageString" + user_image);
             /*
 
@@ -71,17 +63,13 @@ public class UserProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //todo: take photo, and populate user_image and change is_photo_taken to true
         setContentView(R.layout.user_home_page);
         is_photo_taken = false;
-        //TODO: start taking photo activity in the background
         takePicture();
         context=this;
         int user_index = getIntent().getIntExtra("Position", 0);
         current_user = MainActivity.list_of_all_users.get(user_index);
-
         user_display_name = (TextView) findViewById(R.id.user_name);
-
         price_textview = new TextView[4];
         price_textview[0] = (TextView) findViewById(R.id.tv_0);
         price_textview[1] = (TextView) findViewById(R.id.tv_1);
@@ -115,6 +103,20 @@ public class UserProfile extends AppCompatActivity {
         System.out.println("" + str);
     }
 
+    @Override
+    public void onBackPressed() {
+        boolean success = false;
+        while (!success) {
+            try {
+                picture_taking_thread.join();
+                success = true;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onBackPressed();
+    }
+
     void initPage() {
 
         SharedPreferences sharedPreferences = getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
@@ -131,16 +133,23 @@ public class UserProfile extends AppCompatActivity {
         button_start_transaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final ProgressDialog progressDialog = ProgressDialog.show(UserProfile.this, "Loading", "Taking photo,please wait", true);
+                progressDialog.setCancelable(false);
 
-                while (!is_photo_taken) {
-                    try {
-                        Thread.sleep(10000);
-                        takePicture();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                picture_taking_thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (UserProfile.user_image == null) {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        progressDialog.cancel();
                     }
-                }
-
+                });
+                picture_taking_thread.start();
                 for (int i = 0; i < 4; i++) {
                     if (counter[i] > 0) {
                         //creating a new transaction
@@ -225,9 +234,15 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void run() {
                 //Do something after 100ms
-                mCamera.takePicture(null, null, mPicture);
-                is_photo_taken = true;
-                Toast.makeText(UserProfile.this, "Picture Taken", Toast.LENGTH_SHORT).show();
+                try {
+                    if (mCamera != null) {
+                        mCamera.takePicture(null, null, mPicture);
+                        is_photo_taken = true;
+                        Toast.makeText(UserProfile.this, "Picture Taken", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }, 6000);
 

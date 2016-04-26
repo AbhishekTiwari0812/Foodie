@@ -91,6 +91,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 User user=new User(id,name,guest);
                 m.add(user);
         }
+        db.close();
 
        return m;
     }

@@ -128,7 +128,7 @@ public class CustomAdapter extends BaseAdapter {
         return false;
     }
 
-    void _(Object str) {
+    void p(Object str) {
         Log.d("Error:", "" + str);
     }
 }

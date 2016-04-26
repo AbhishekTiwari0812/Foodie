@@ -27,8 +27,8 @@ import java.util.ArrayList;
 
 public class DataFromWeb {
     TextView output;
-    static final String LOGIN_URL = "https://iems-demo.herokuapp.com/api/v1/users";
-    static final String ACCESS_TOKEN_URL = "urlforgettingaccesstokengoeshere";
+    static final String LOGIN_URL = "http://iems-demo.herokuapp.com/api/v1/users";
+    static final String ACCESS_TOKEN_URL = "http://iems-demo.herokuapp.com/api/v1/authenticate";
     static boolean is_user_list_ready = false;
     static RequestQueue requestQueue;
 
@@ -108,50 +108,44 @@ public class DataFromWeb {
         return false;
     }
 
-    static String getAccessTokenFromWeb() {
+    static void getAccessTokenFromWeb() {
         final String[] AccessTokenForClient = {null};
+        p("Trying to get the access token");
         requestQueue = Volley.newRequestQueue(MainActivity.context);
         //TODO: edit the json_object
-        String key = "client_id";
-        String Clientid = "Client1";
-        String ident = "manager_password";
-        //TODO: manager password should be the value
-        String indentValue = "";
-        //access_token
+        String t = "{\"client_id\": \"" + MainActivity.client_app_id + "\", \"manager_password\": \"" + MainActivity.client_app_password + "\"}";
         JSONObject json_object = null;
+        try {
+            json_object = new JSONObject(t);
+        } catch (JSONException e) {
+            p("Failed while creating the json object : " + t);
+        }
         JsonObjectRequest jor = new JsonObjectRequest(Request.Method.POST, ACCESS_TOKEN_URL, json_object,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONObject ja = response.getJSONObject("AccessToken");
-                            p("Acess token we got from the web:" + ja.toString());
-                            AccessTokenForClient[0] = (String) ja.get("AccessToken");
-                            /*
-                            for (int i = 0; i < ja.length(); i++) {
-                                JSONObject jsonObject = ja.getJSONObject(i);
-                                long user_id = jsonObject.getLong("id");
-                                String user_name = jsonObject.getString("name");
-                                Boolean is_guest = jsonObject.getBoolean("guest");
-                                p("Adding:" + user_name);
-                                m.add(new User(user_id, user_name, is_guest));
-                                //add this list to the database.
-                            }*/
+                            JSONObject ja = response.getJSONObject("client");
+                            AccessTokenForClient[0] = (String) ja.get("auth_token");
+                            MainActivity.ClientAccessToken = AccessTokenForClient[0];
+                            MainActivity.token_set = true;
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            MainActivity.token_set = true;
+                            MainActivity.ClientAccessToken = null;
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Volley", "Error");
-
+                        MainActivity.token_set = true;
+                        MainActivity.ClientAccessToken = null;
                     }
                 }
         );
         requestQueue.add(jor);
-        return AccessTokenForClient[0];
+
+
     }
 
     static void updateDatabase(final ArrayList<User> m) {
