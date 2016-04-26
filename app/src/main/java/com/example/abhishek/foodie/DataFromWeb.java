@@ -124,13 +124,17 @@ public class DataFromWeb {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        String error_flag = null;
                         try {
                             JSONObject ja = response.getJSONObject("client");
                             AccessTokenForClient[0] = (String) ja.get("auth_token");
-                            MainActivity.ClientAccessToken = AccessTokenForClient[0];
+                            error_flag = (String) ja.get("errors");
+                            if (error_flag != null)
+                                MainActivity.ClientAccessToken = AccessTokenForClient[0];
                             MainActivity.token_set = true;
                         } catch (JSONException e) {
                             MainActivity.token_set = true;
+
                             MainActivity.ClientAccessToken = null;
                         }
                     }
@@ -144,8 +148,6 @@ public class DataFromWeb {
                 }
         );
         requestQueue.add(jor);
-
-
     }
 
     static void updateDatabase(final ArrayList<User> m) {

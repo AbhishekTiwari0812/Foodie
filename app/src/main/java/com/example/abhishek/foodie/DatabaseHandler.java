@@ -98,19 +98,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     public void updateUsers(ArrayList<User> m) {
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL("DELETE FROM " + TABLE_USERS);
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_USERS);
+            for (int i = 0; i < m.size(); i++) {
+                ContentValues values = new ContentValues();
+                values.put(ID, m.get(i).user_id);
+                values.put(NAME, m.get(i).user_name);
+                values.put(GUEST, m.get(i).is_guest);
 
-        for(int i=0;i<m.size();i++)
-        {
-            ContentValues values = new ContentValues();
-            values.put(ID, m.get(i).user_id);
-            values.put(NAME,m.get(i).user_name);
-            values.put(GUEST,m.get(i).is_guest);
+                db.insert(TABLE_USERS, null, values);
+            }
+            db.close();
 
-            db.insert(TABLE_USERS,null,values);
+        } catch (Exception e) {
+
         }
-        db.close();
     }
 }
